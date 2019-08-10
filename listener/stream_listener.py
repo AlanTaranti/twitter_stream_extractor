@@ -15,8 +15,8 @@ class StreamListener(tweepy.StreamListener):
         # Save Control
         self.processed_tweets_counter = 0
         self.processed_tweets_to_save = 0
-        self.saveFile = 'rawData'
-        self.save_location = 'data/' + self.saveFile + '.gzip'
+        self.save_file = 'rawData'
+        self.save_location = 'data/' + self.save_file + '.gzip'
 
         # Backup Control
         self.save_count_to_backup = 5000
