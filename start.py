@@ -2,11 +2,13 @@
 
 ## Import
 import os
+import sys
 import tweepy
 import logging
 import pandas as pd
 from os.path import join, dirname
 from dotenv import load_dotenv
+from requests.exceptions import ConnectionError
 
 from listener.stream_listener import StreamListener
 
@@ -43,8 +45,6 @@ def get_api(logger):
     logger.debug("Authenticating")
 
     if not consumer_key or not consumer_secret or not access_token_key or not access_token_secret:
-        import sys
-
         print('Missing Twitter Access Information')
         sys.exit(1)
 
@@ -76,8 +76,13 @@ def start():
     # Start Streamer
     stream_listener = StreamListener(logger, language)
     stream = tweepy.Stream(auth=api.auth, listener=stream_listener)
-    stream.filter(track=terms)
-    stream.disconnect()
+
+    try:
+        stream.filter(track=terms)
+    except ConnectionError:
+        print('Sem Rede! Desconectando...')
+        stream.disconnect()
+        sys.exit(1)
 
 
 if __name__ == '__main__':
