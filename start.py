@@ -1,4 +1,6 @@
-# Tweepy
+#
+# Twitter Stream Extractor
+#
 
 ## Import
 import os
