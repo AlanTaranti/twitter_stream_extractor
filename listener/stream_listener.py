@@ -66,7 +66,6 @@ class StreamListener(tweepy.StreamListener):
     # Override
     # Valida erros
     def on_error(self, status_code):
-        print('error')
 
         # Codigo 420, jah atingiu o limite de solicitação
         # Retorn False, que encerra a solicitação
@@ -94,7 +93,6 @@ class StreamListener(tweepy.StreamListener):
 
     # Processa o tweet
     def process_tweet(self, status):
-        print('process')
 
         self.logger.debug("Processing a Tweet")
 
@@ -124,7 +122,6 @@ class StreamListener(tweepy.StreamListener):
 
     # Armazena o tweet
     def store_tweet(self, response):
-        print('store')
 
         self.logger.debug("Storing a Tweet")
 
