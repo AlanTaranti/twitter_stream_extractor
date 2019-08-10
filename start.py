@@ -45,7 +45,7 @@ def get_api(logger):
     logger.debug("Authenticating")
 
     if not consumer_key or not consumer_secret or not access_token_key or not access_token_secret:
-        print('Missing Twitter Access Information')
+        print('Saindo! Estão Faltando Informações de Acesso ao Twitter')
         sys.exit(1)
 
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
@@ -86,5 +86,5 @@ def start():
 
 
 if __name__ == '__main__':
-    print('Starting Tweet Streaming...')
+    print('Executando Tweet Streaming...')
     start()
