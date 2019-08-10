@@ -34,8 +34,8 @@ class StreamListener(tweepy.StreamListener):
         try:
             with open(self.save_location, 'r'):
                 raw_tweets = pd.read_parquet(self.save_location)
-                total = len(raw_tweets)
-                self.logger.debug("Stored Tweets: " + str(total))
+                self.total = len(raw_tweets)
+                self.logger.debug("Stored Tweets: " + str(self.total))
         except IOError:
             raw_tweets = pd.DataFrame()
         return raw_tweets
