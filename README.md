@@ -32,4 +32,4 @@ python start.py
 
 ## Licença
 
-Este trabalho está licenciado sobre a MIT License - veja o arquivo [LICENSE.md](LICENSE.md) para detalhes.
+Este trabalho está licenciado sobre a MIT License - veja o arquivo [LICENSE](LICENSE) para detalhes.
