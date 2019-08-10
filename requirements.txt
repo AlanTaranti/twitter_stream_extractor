@@ -1,0 +1,4 @@
+pyarrow
+tweepy
+pandas
+python-dotenv
