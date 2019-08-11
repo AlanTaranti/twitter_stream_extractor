@@ -67,7 +67,7 @@ def start_stream(api, stream_listener, terms):
     stream = tweepy.Stream(auth=api.auth, listener=stream_listener)
     while True:
         try:
-            stream.filter(track=terms)
+            stream.filter(track=terms, languages=[language])
         except ConnectionError:
             print('Sem Rede! Desconectando...')
             stream.disconnect()
