@@ -11,19 +11,18 @@ class StreamListener(tweepy.StreamListener):
         self.logger = logger  # Inicializa o Logger
 
         self.total = 0
+        self.session_total = 0
         self.language = language
 
         # Save Control
-        self.processed_tweets_counter = 0
-        self.processed_tweets_to_save = 100
+        self.processed_tweets_to_save = 500
         self.save_file = 'raw_data'
         self.save_location = 'data/' + self.save_file + '.gzip'
 
         # Backup Control
-        self.save_count_to_backup = 10
+        self.processed_tweets_to_backup = 1000
         self.elapsed_time_to_save = 600
-        self.save_count = 0
-        self.start_time = time()
+        self.last_save_time = time()
 
         self.raw_tweet = None
         self.raw_tweet = self.load_raw_tweet()
@@ -48,12 +47,10 @@ class StreamListener(tweepy.StreamListener):
 
     def save_raw_tweet(self):
         self.raw_tweet.to_parquet(self.save_location, compression='gzip')
-        self.save_count += 1
 
-        if self.save_count == self.save_count_to_backup or time() - self.start_time > self.elapsed_time_to_save:
+        if self.session_total % self.processed_tweets_to_save == 0 or time() - self.last_save_time > self.elapsed_time_to_save:
             self.raw_tweet.to_parquet(self.save_location + '_bkp', compression='gzip')
-            self.save_count = 0
-            self.start_time = time()
+            self.last_save_time = time()
 
     # Override
     # Analisa o tweet
@@ -134,14 +131,13 @@ class StreamListener(tweepy.StreamListener):
         # Armazena no DataFrame
         self.raw_tweet = self.raw_tweet.append(response, ignore_index=True)
 
-        self.processed_tweets_counter += 1
+        self.session_total += 1
         self.total += 1
         self.logger.debug('Total Tweets: ' + str(self.total))
 
         # Armazena no disco
-        if self.processed_tweets_counter > self.processed_tweets_to_save:
+        if self.session_total % self.processed_tweets_to_save == 0:
             self.logger.debug("Saving on Disk")
             self.save_raw_tweet()
-            self.processed_tweets_counter = 0
 
         self.logger.debug("Waiting for Tweet")
