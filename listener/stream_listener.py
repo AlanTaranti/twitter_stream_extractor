@@ -27,6 +27,9 @@ class StreamListener(tweepy.StreamListener):
         self.raw_tweet = None
         self.raw_tweet = self.load_raw_tweet()
 
+        # Info control
+        self.start_time = time()
+
         super().__init__(api)
 
     def load_raw_tweet(self):
@@ -135,9 +138,21 @@ class StreamListener(tweepy.StreamListener):
         self.total += 1
         self.logger.debug('Total Tweets: ' + str(self.total))
 
+        self.show_info()
+
         # Armazena no disco
         if self.session_total % self.processed_tweets_to_save == 0:
             self.logger.debug("Saving on Disk")
             self.save_raw_tweet()
 
         self.logger.debug("Waiting for Tweet")
+
+    def show_info(self):
+        os.system('clear')
+        print('Streaming...')
+        print('Total Tweets:', self.total)
+        print('Session Tweets:', self.session_total)
+        elapsed_time = time() - self.start_time
+        elapsed_hour = elapsed_time / 60 / 60
+        tweets_per_hour = int(self.session_total / elapsed_hour)
+        print('Speed: {} Tweets/hour'.format(tweets_per_hour))
