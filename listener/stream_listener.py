@@ -19,7 +19,7 @@ class StreamListener(tweepy.StreamListener):
         self.save_location = 'data/' + self.save_file + '.gzip'
 
         # Backup Control
-        self.save_count_to_backup = 5000
+        self.save_count_to_backup = 10
         self.elapsed_time_to_save = 600
         self.save_count = 0
         self.start_time = time()
