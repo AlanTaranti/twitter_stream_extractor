@@ -1,5 +1,6 @@
 ## Import
 import tweepy
+import os.path
 import pandas as pd
 from time import time
 
@@ -31,9 +32,14 @@ class StreamListener(tweepy.StreamListener):
 
     def load_raw_tweet(self):
         self.logger.debug("Loading Tweets")
+        load_location = self.save_location
+
+        if not os.path.isfile(load_location):
+            load_location = load_location + '_bkp'
+
         try:
-            with open(self.save_location, 'r'):
-                raw_tweets = pd.read_parquet(self.save_location)
+            with open(load_location, 'r'):
+                raw_tweets = pd.read_parquet(load_location)
                 self.total = len(raw_tweets)
                 self.logger.debug("Stored Tweets: " + str(self.total))
         except IOError:
