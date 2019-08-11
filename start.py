@@ -11,6 +11,7 @@ import pandas as pd
 from os.path import join, dirname
 from dotenv import load_dotenv
 from requests.exceptions import ConnectionError
+from urllib3.exceptions import ReadTimeoutError
 
 from listener.stream_listener import StreamListener
 
@@ -62,6 +63,20 @@ def get_emojis():
     return list(emoji_data['emoji'].values)
 
 
+def start_stream(api, stream_listener, terms):
+    stream = tweepy.Stream(auth=api.auth, listener=stream_listener)
+    while True:
+        try:
+            stream.filter(track=terms)
+        except ConnectionError:
+            print('Sem Rede! Desconectando...')
+            stream.disconnect()
+            sys.exit(1)
+        except ReadTimeoutError:
+            stream.disconnect()
+            stream = tweepy.Stream(auth=api.auth, listener=stream_listener)
+
+
 def start():
     logger = configure_logging()
     api = get_api(logger)
@@ -77,14 +92,7 @@ def start():
 
     # Start Streamer
     stream_listener = StreamListener(logger, language)
-    stream = tweepy.Stream(auth=api.auth, listener=stream_listener)
-
-    try:
-        stream.filter(track=terms)
-    except ConnectionError:
-        print('Sem Rede! Desconectando...')
-        stream.disconnect()
-        sys.exit(1)
+    start_stream(api, stream_listener, terms)
 
 
 if __name__ == '__main__':
