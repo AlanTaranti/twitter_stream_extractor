@@ -8,10 +8,12 @@ import sys
 import tweepy
 import logging
 import pandas as pd
+from time import sleep
 from os.path import join, dirname
 from dotenv import load_dotenv
 from requests.exceptions import ConnectionError
 from urllib3.exceptions import ReadTimeoutError
+from urllib3.exceptions import ProtocolError
 
 from listener.stream_listener import StreamListener
 
@@ -64,17 +66,17 @@ def get_emojis():
 
 
 def start_stream(api, stream_listener, terms):
-    stream = tweepy.Stream(auth=api.auth, listener=stream_listener)
     while True:
+        stream = tweepy.Stream(auth=api.auth, listener=stream_listener)
         try:
             stream.filter(track=terms, languages=[language])
         except ConnectionError:
-            print('Sem Rede! Desconectando...')
-            stream.disconnect()
-            sys.exit(1)
+            print('Sem Rede! Aguardando 10 segundos para tentar novamente...')
+            sleep(10)
         except ReadTimeoutError:
-            stream.disconnect()
-            stream = tweepy.Stream(auth=api.auth, listener=stream_listener)
+            continue
+        except ProtocolError:
+            continue
 
 
 def start():
