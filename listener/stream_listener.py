@@ -15,12 +15,12 @@ class StreamListener(tweepy.StreamListener):
         self.language = language
 
         # Save Control
-        self.processed_tweets_to_save = 500
+        self.processed_tweets_to_save = 3000
         self.save_file = 'raw_data'
         self.save_location = 'data/' + self.save_file + '.gzip'
 
         # Backup Control
-        self.processed_tweets_to_backup = 1000
+        self.processed_tweets_to_backup = 6000
         self.elapsed_time_to_save = 600
         self.last_save_time = time()
 
