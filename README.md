@@ -1,5 +1,8 @@
 # Twitter Stream Extractor
 
+[![License](https://img.shields.io/github/license/AlanTaranti/twitter_stream_extractor)](LICENSE)
+![Maintenance](https://img.shields.io/maintenance/no/2019)
+
 Extrai tweets em vários idiomas de acordo com termos pré-estabelecidos e os converte no formato Pandas.
 
 ## Começando
