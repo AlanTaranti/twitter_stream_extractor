@@ -16,8 +16,9 @@ class StreamListener(tweepy.StreamListener):
 
         # Save Control
         self.processed_tweets_to_save = 3000
+        self.save_directory = 'data/'
         self.save_file = 'raw_data'
-        self.save_location = 'data/' + self.save_file + '.gzip'
+        self.save_location = self.save_directory + self.save_file + '.gzip'
 
         # Backup Control
         self.processed_tweets_to_backup = 6000
@@ -49,6 +50,10 @@ class StreamListener(tweepy.StreamListener):
         return raw_tweets
 
     def save_raw_tweet(self):
+
+        if not os.path.isdir(self.save_directory):
+            os.mkdir(self.save_directory)
+
         self.raw_tweet.to_parquet(self.save_location, compression='gzip')
 
         if self.session_total % self.processed_tweets_to_save == 0 or time() - self.last_save_time > self.elapsed_time_to_save:
