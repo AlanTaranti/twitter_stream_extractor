@@ -65,6 +65,11 @@ def get_emojis():
     return list(emoji_data['emoji'].values)
 
 
+def get_emojis_simple():
+    emoji_data = pd.read_csv('simple_emoji_sentiment_data.csv')
+    return list(emoji_data['emoji'].values)
+
+
 def start_stream(api, stream_listener, terms):
     while True:
         stream = tweepy.Stream(auth=api.auth, listener=stream_listener)
@@ -91,6 +96,8 @@ def start():
     terms = []
     if data_type == 'emoji':
         terms = get_emojis()
+    elif data_type == 'emoji_simple':
+        terms = get_emojis_simple()
 
     # Start Streamer
     stream_listener = StreamListener(logger, language)
