@@ -9,7 +9,7 @@ Extrai tweets em vários idiomas de acordo com termos pré-estabelecidos e os co
 
 Estas instruções vão te ajudar a iniciar o projeto.
 
-### Prerequisites
+### Prerequisitos
 
 - Python 3
 
@@ -24,7 +24,7 @@ cp .env.example .env
 
 ### Configurando
 
-Adcicione no arquivo .env a chave da API do Twitter e altere as variáveis conforme a necessidade.
+Adicione no arquivo .env a chave da API do Twitter e altere as variáveis conforme a necessidade.
 
 - Variável DATA_TYPE - altera o tipo de dado extraído. Atualmente somente suportado 'emoji'.
 
