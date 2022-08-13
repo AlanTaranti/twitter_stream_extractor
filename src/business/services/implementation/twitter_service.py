@@ -2,11 +2,9 @@ from typing import List
 
 from business.repositories.interfaces.i_twitter_repository import ITwitterRepository
 from enterprise.models.filter_rule import FilterRule
-from infrastructure.repositories.implementation.twitter_repository import TwitterRepository
 
 
 class TwitterService:
-
     def __init__(self, twitter_repository: ITwitterRepository):
         self.twitter_repository = twitter_repository
 
@@ -23,11 +21,5 @@ class TwitterService:
 
         self.twitter_repository.delete_stream_rules_by_ids(ids)
 
-
-if __name__ == "__main__":
-    from pprint import pprint
-
-    twitter_service = TwitterService(twitter_repository=TwitterRepository())
-    pprint(twitter_service.get_stream_rules())
-    twitter_service.delete_all_stream_rules()
-    pprint(twitter_service.get_stream_rules())
+    def add_rules(self, rules: List[FilterRule]) -> List[FilterRule]:
+        return self.twitter_repository.add_rules(rules)
