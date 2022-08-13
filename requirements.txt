@@ -1,4 +1,5 @@
 pyarrow
-tweepy
 pandas
 python-dotenv
+requests
+
