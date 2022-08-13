@@ -13,7 +13,6 @@ TWITTER_STREAM_URL = TWITTER_URL + "/tweets/search/stream"
 
 
 class TwitterRepository(ITwitterRepository):
-
     @staticmethod
     def __requests_bearer_oauth(r: requests.Request) -> requests.Request:
         r.headers["Authorization"] = f"Bearer {BEARER_TOKEN}"
@@ -36,7 +35,9 @@ class TwitterRepository(ITwitterRepository):
         response_content = response.json()
 
         # Convert data to FilterRule
-        return TwitterRepository.__convert_raw_data_to_filter_rule(response_content.get("data", []))
+        return TwitterRepository.__convert_raw_data_to_filter_rule(
+            response_content.get("data", [])
+        )
 
     def delete_stream_rules_by_ids(self, ids: List[int]):
         url = TWITTER_STREAM_URL + "/rules"
@@ -54,3 +55,28 @@ class TwitterRepository(ITwitterRepository):
         # Handle error
         if response.status_code != 200:
             raise HttpException(response.status_code, response.text)
+
+    def add_rules(self, rules: List[FilterRule]) -> List[FilterRule]:
+        url = TWITTER_STREAM_URL + "/rules"
+
+        # Create Payload
+        payload = {"add": [rule.__dict__ for rule in rules]}
+
+        # Execute request
+        response = requests.post(
+            url,
+            json=payload,
+            auth=TwitterRepository.__requests_bearer_oauth,
+        )
+
+        # Handle error
+        if response.status_code != 201:
+            raise HttpException(response.status_code, response.text)
+
+        # Parse Data
+        response_content = response.json()
+
+        # Convert data to FilterRule
+        return TwitterRepository.__convert_raw_data_to_filter_rule(
+            response_content.get("data", [])
+        )
