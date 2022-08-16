@@ -23,13 +23,20 @@ class TwitterStreamService(ITwitterStreamService):
 
         self.twitter_repository.delete_stream_rules_by_ids(ids)
 
-    def add_rules(self, rules: List[FilterRule]) -> List[FilterRule]:
+    def add_rules(self, rules: List[FilterRule] | FilterRule) -> List[FilterRule]:
+        if not isinstance(rules, list):
+            rules = [rules]
+
         return self.twitter_repository.add_rules(rules)
 
     def stream_rules(self, callback_function: Callable[[Tweet], None]) -> None:
         self.twitter_repository.stream_rules(callback_function)
 
-    def stream_with_rules(self, rules: List[FilterRule], callback_function: Callable[[Tweet], None]) -> None:
+    def stream_with_rules(
+        self,
+        rules: List[FilterRule] | FilterRule,
+        callback_function: Callable[[Tweet], None],
+    ) -> None:
         self.delete_all_stream_rules()
         self.add_rules(rules)
         self.stream_rules(callback_function)
