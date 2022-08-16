@@ -1,5 +1,5 @@
 class ContextAnnotationDomain:
     def __init__(self, data):
-        self.id: int = data["id"]
-        self.name: str = data["name"]
-        self.description = data["description"]
+        self.id: int = data.get("id", None)
+        self.name: str = data.get("name", None)
+        self.description: str = data.get("description", None)
