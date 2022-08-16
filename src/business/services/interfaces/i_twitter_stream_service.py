@@ -23,5 +23,7 @@ class ITwitterStreamService(metaclass=abc.ABCMeta):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def stream_with_rules(self, rules: List[FilterRule], callback_function: Callable[[Tweet], None]) -> None:
+    def stream_with_rules(
+        self, rules: List[FilterRule], callback_function: Callable[[Tweet], None]
+    ) -> None:
         raise NotImplementedError
