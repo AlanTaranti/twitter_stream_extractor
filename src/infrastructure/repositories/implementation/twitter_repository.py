@@ -92,7 +92,7 @@ class TwitterRepository(ITwitterRepository):
             response_content.get("data", [])
         )
 
-    def stream(self, callback_function: Callable[[Tweet], None]) -> None:
+    def stream_rules(self, callback_function: Callable[[Tweet], None]) -> None:
         url = TWITTER_STREAM_URL + "?tweet.fields=context_annotations,lang"
         print(url)
         response = requests.get(

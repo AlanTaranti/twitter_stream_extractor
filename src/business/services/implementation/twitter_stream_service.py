@@ -1,10 +1,12 @@
-from typing import List
+from typing import List, Callable
 
 from business.repositories.interfaces import ITwitterRepository
+from business.services.interfaces import ITwitterStreamService
 from enterprise.models.filter_rule import FilterRule
+from enterprise.models.tweet import Tweet
 
 
-class TwitterService:
+class TwitterStreamService(ITwitterStreamService):
     def __init__(self, twitter_repository: ITwitterRepository):
         self.twitter_repository = twitter_repository
 
@@ -23,3 +25,11 @@ class TwitterService:
 
     def add_rules(self, rules: List[FilterRule]) -> List[FilterRule]:
         return self.twitter_repository.add_rules(rules)
+
+    def stream_rules(self, callback_function: Callable[[Tweet], None]) -> None:
+        self.twitter_repository.stream_rules(callback_function)
+
+    def stream_with_rules(self, rules: List[FilterRule], callback_function: Callable[[Tweet], None]) -> None:
+        self.delete_all_stream_rules()
+        self.add_rules(rules)
+        self.stream_rules(callback_function)
