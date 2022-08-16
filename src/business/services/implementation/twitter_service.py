@@ -1,6 +1,6 @@
 from typing import List
 
-from business.repositories.interfaces.i_twitter_repository import ITwitterRepository
+from business.repositories.interfaces import ITwitterRepository
 from enterprise.models.filter_rule import FilterRule
 
 
