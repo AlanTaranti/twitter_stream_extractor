@@ -1,5 +1,5 @@
-from enterprise.models.context_annotation_domain import ContextAnnotationDomain
-from enterprise.models.context_annotation_entity import ContextAnnotationEntity
+from src.enterprise.models.context_annotation_domain import ContextAnnotationDomain
+from src.enterprise.models.context_annotation_entity import ContextAnnotationEntity
 
 
 class ContextAnnotation:

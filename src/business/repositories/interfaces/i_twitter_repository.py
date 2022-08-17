@@ -1,8 +1,8 @@
 import abc
 from typing import List, Callable
 
-from enterprise.models.filter_rule import FilterRule
-from enterprise.models.tweet import Tweet
+from src.enterprise.models.filter_rule import FilterRule
+from src.enterprise.models.tweet import Tweet
 
 
 class ITwitterRepository(metaclass=abc.ABCMeta):

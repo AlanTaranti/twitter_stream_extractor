@@ -1,6 +1,6 @@
 from typing import List
 
-from enterprise.models.context_annotation import ContextAnnotation
+from src.enterprise.models.context_annotation import ContextAnnotation
 
 
 class Tweet:

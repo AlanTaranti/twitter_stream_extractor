@@ -4,12 +4,12 @@ from typing import List, Callable
 import requests
 from requests import Response
 
-from business.repositories.interfaces.i_twitter_repository import ITwitterRepository
-from enterprise.models.filter_rule import FilterRule
-from enterprise.models.tweet import Tweet
-from infrastructure.exception.http_exception import HttpException
+from src.business.repositories.interfaces.i_twitter_repository import ITwitterRepository
+from src.enterprise.models.filter_rule import FilterRule
+from src.enterprise.models.tweet import Tweet
+from src.infrastructure.exception.http_exception import HttpException
 
-from config import BEARER_TOKEN
+from src.config import BEARER_TOKEN
 
 TWITTER_URL = "https://api.twitter.com/2"
 TWITTER_STREAM_URL = TWITTER_URL + "/tweets/search/stream"

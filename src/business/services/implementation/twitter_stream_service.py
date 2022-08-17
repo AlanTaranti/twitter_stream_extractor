@@ -1,9 +1,9 @@
 from typing import List, Callable
 
-from business.repositories.interfaces import ITwitterRepository
-from business.services.interfaces import ITwitterStreamService
-from enterprise.models.filter_rule import FilterRule
-from enterprise.models.tweet import Tweet
+from src.business.repositories.interfaces import ITwitterRepository
+from src.business.services.interfaces import ITwitterStreamService
+from src.enterprise.models.filter_rule import FilterRule
+from src.enterprise.models.tweet import Tweet
 
 
 class TwitterStreamService(ITwitterStreamService):

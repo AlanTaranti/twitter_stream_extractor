@@ -1,12 +1,12 @@
 from os import path, makedirs
-from typing import Optional
+from typing import Optional, List
 
 import pandas as pd
 
-from business.services.interfaces import ITwitterStreamService
-from config import BASE_DIR
-from enterprise.models.filter_rule import FilterRule
-from enterprise.models.tweet import Tweet
+from src.business.services.interfaces import ITwitterStreamService
+from src.config import BASE_DIR
+from src.enterprise.models.filter_rule import FilterRule
+from src.enterprise.models.tweet import Tweet
 
 
 class TwitterStreamController:
@@ -66,9 +66,12 @@ class TwitterStreamController:
             self.save_dataframe_to_disk()
             print(f"{self.tweet_count} tweets saved on disk")
 
-    def stream_with_rule(self, rule: str, output_dir: str) -> None:
+    def stream_with_rule(self, rules: str | List[str], output_dir: str) -> None:
         self.output_dir = output_dir
         self.dataset = self.load_dataset()
 
-        filter_rule = FilterRule({"value": rule})
-        self.twitter_stream_service.stream_with_rules(filter_rule, self.process_tweet)
+        if not isinstance(rules, list):
+            rules = [rules]
+
+        filter_rules = [FilterRule({"value": rule}) for rule in rules]
+        self.twitter_stream_service.stream_with_rules(filter_rules, self.process_tweet)
