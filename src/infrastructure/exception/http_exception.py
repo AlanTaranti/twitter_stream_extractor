@@ -1,4 +1,6 @@
-from src.infrastructure.exception.infrastructure_exception import InfrastructureException
+from src.infrastructure.exception.infrastructure_exception import (
+    InfrastructureException,
+)
 
 
 class HttpException(InfrastructureException):
