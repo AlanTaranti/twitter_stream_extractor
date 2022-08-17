@@ -3,6 +3,8 @@
 .env
 data/
 log
+output
+
 
 
 # Created by https://www.gitignore.io/api/linux,macos,python,windows,pycharm
