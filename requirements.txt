@@ -2,4 +2,5 @@ pyarrow
 pandas
 python-dotenv
 requests
+fire
 
