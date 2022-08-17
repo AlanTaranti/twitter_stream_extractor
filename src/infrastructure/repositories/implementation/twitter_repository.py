@@ -28,7 +28,7 @@ class TwitterRepository(ITwitterRepository):
 
     @staticmethod
     def __convert_raw_data_to_tweet(raw_data) -> Tweet:
-        return Tweet(raw_data["data"])
+        return Tweet(raw_data.get("data", None))
 
     @staticmethod
     def __handle_error(response: Response, expected_status_code: int):
@@ -111,4 +111,5 @@ class TwitterRepository(ITwitterRepository):
                 tweet = TwitterRepository.__convert_raw_data_to_tweet(json_response)
 
                 # Callable
-                callback_function(tweet)
+                if tweet:
+                    callback_function(tweet)
