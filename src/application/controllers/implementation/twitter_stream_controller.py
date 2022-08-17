@@ -1,4 +1,4 @@
-from os import path, makedirs
+from os import path, makedirs, system
 from typing import Optional, List
 
 import pandas as pd
@@ -11,7 +11,6 @@ from src.enterprise.models.tweet import Tweet
 
 class TwitterStreamController:
     def __init__(self, twitter_stream_service: ITwitterStreamService):
-        self.tweet_count_to_print = 50
         self.tweet_count_to_save = 100
 
         self.twitter_stream_service = twitter_stream_service
@@ -59,7 +58,8 @@ class TwitterStreamController:
     def process_tweet(self, tweet: Tweet) -> None:
         self.save_tweet(tweet)
 
-        if self.tweet_count % self.tweet_count_to_print == 0:
+        if self.tweet_count % self.tweet_count_to_save / 2 == 0:
+            system("clear")
             print(f"{self.tweet_count} tweets processed")
 
         if self.tweet_count % self.tweet_count_to_save == 0:
