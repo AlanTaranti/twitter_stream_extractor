@@ -16,7 +16,7 @@ class TwitterStreamController:
         self.twitter_stream_service = twitter_stream_service
         self.dataset: Optional[pd.DataFrame] = None
         self.tweet_count: int = 0
-        self.output_dir: str = ""
+        self.output_filename: str = ""
 
     def load_dataset(self) -> pd.DataFrame:
         filepath = self.get_save_filepath()
@@ -42,9 +42,9 @@ class TwitterStreamController:
         self.tweet_count += 1
 
     def get_save_filepath(self) -> str:
-        filename = "tweets.parquet.gzip"
+        filename = "{}.parquet.gzip".format(self.output_filename)
 
-        directory = path.join(BASE_DIR, "..", self.output_dir)
+        directory = path.join(BASE_DIR, "..", "output")
         makedirs(directory, exist_ok=True)
 
         filepath = path.join(directory, filename)
@@ -66,8 +66,8 @@ class TwitterStreamController:
             self.save_dataframe_to_disk()
             print(f"{self.tweet_count} tweets saved on disk")
 
-    def stream_with_rule(self, rules: str | List[str], output_dir: str) -> None:
-        self.output_dir = output_dir
+    def stream_with_rule(self, rules: str | List[str], output_filename: str) -> None:
+        self.output_filename = output_filename
         self.dataset = self.load_dataset()
 
         if not isinstance(rules, list):
