@@ -24,13 +24,20 @@ cp .env.example .env
 
 ### Configurando
 
-Adicione no arquivo .env a chave da API do Twitter e altere as variáveis conforme a necessidade.
-
-- Variável DATA_TYPE - altera o tipo de dado extraído. Atualmente somente suportado 'emoji'.
+Adicione no arquivo .env o Bearer Token da API do Twitter.
+Caso não tenha um token de acesso, é necessário solicitar ao Twitter através do [Portal do Desenvolvedor](https://developer.twitter.com/)
 
 ### Executando
 ```
-python start.py
+python cli.py --help
+```
+
+```
+python cli.py run-emoji --output tweets
+```
+
+```
+python cli.py run '(biscoito OR bolacha) lang:pt -is:retweet' briga_eterna
 ```
 
 ## Licença
