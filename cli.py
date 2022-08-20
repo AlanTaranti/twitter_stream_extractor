@@ -10,15 +10,26 @@ from src.business.services.implementation import TwitterStreamService
 from src.infrastructure.repositories.implementation import TwitterRepository
 
 
-def run(rules: str | List[str]):
+def run(rules, output):
+    """
+    Extracts tweets containing designated rules and saves in parquet file.
+
+    :param rules: List of rules to be used in the extraction. See how to define a rule on https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/integrate/build-a-rule.
+    :param output: Filename of output parquet file.
+    """
     repository = TwitterRepository()
     service = TwitterStreamService(repository)
     controller = TwitterStreamController(service)
 
-    controller.stream_with_rule(rules, "output")
+    controller.stream_with_rule(rules, output)
 
 
-def run_emoji():
+def run_emoji(output):
+    """
+    Extracts tweets containing one or more emojis of Emoji Sentiment Ranking and saves in parquet file.
+
+    :param output: Filename of output parquet file.
+    """
     emojis = pd.read_csv("emoji_sentiment_data.csv")["emoji"].values
     emojis = ['"{}"'.format(emoji) for emoji in emojis]
 
@@ -30,7 +41,7 @@ def run_emoji():
         rule = "( " + " OR ".join(emoji_slice) + ")" + " lang:pt -is:retweet"
         rules.append(rule)
 
-    run(rules)
+    run(rules, output)
 
 
 if __name__ == "__main__":
